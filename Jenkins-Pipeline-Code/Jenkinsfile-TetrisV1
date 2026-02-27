@@ -17,12 +17,10 @@ pipeline {
                 git branch: 'master', url: 'https://github.com/myself-organisation/End-to-End-Kubernetes-DevSecOps-Tetris-Project.git'
             }
         }
-        stage('Sonarqube Analysis') {
-            steps {
-                dir('Tetris-V1') {
-                    withSonarQubeEnv('sonar-scanner') {
-                        sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Tetris \
-                        -Dsonar.projectKey=Tetris '''
+        stage('SonarQube Analysis') {
+            def scannerHome = tool 'SonarScanner';
+            withSonarQubeEnv() {
+                sh "${scannerHome}/bin/sonar-scanner"
                     }
                 }
             }
